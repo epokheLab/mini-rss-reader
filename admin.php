@@ -25,6 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = $error->getMessage();
             $messageType = 'error';
         }
+    } elseif (isset($_POST['update_tags'])) {
+        updateFeedTags(
+            (int) ($_POST['id'] ?? 0),
+            (string) ($_POST['tags'] ?? '')
+        );
+        $message = 'Tags updated.';
     } elseif (isset($_POST['delete'])) {
         deleteFeed((int) ($_POST['id'] ?? 0));
         $message = 'Source and its articles deleted.';
@@ -70,7 +76,8 @@ $feeds = getFeeds();
         </select>
       </label>
       <label>Tags
-        <input type="text" name="tags" placeholder="SEO, AI, technology">
+        <input type="text" name="tags" placeholder="AI, Algorithms, SEO">
+        <span class="field-hint">Separate multiple tags with commas.</span>
       </label>
       <label class="check"><input type="checkbox" name="is_top"> Top source</label>
       <div class="full"><button class="button" type="submit" name="add">Add source</button></div>
@@ -86,7 +93,7 @@ $feeds = getFeeds();
       <div class="source-list">
         <?php foreach ($feeds as $feed): ?>
           <div class="source-row">
-            <div>
+            <div class="source-summary">
               <strong><?= escape($feed['domain']) ?></strong>
               <div class="source-meta">
                 <?= $feed['language'] !== '' ? escape(strtoupper($feed['language'])) : 'No language' ?>
@@ -94,9 +101,33 @@ $feeds = getFeeds();
                 <?= $feed['tags'] !== '' ? ' · ' . escape(implode(', ', splitTags($feed['tags']))) : '' ?>
               </div>
             </div>
-            <form method="post" onsubmit="return confirm('Delete this source and all of its articles?')">
+            <div class="source-actions">
+              <button
+                class="link-edit"
+                type="button"
+                data-edit-source="edit-source-<?= (int) $feed['id'] ?>"
+                aria-expanded="false"
+              >Edit</button>
+              <form method="post" onsubmit="return confirm('Delete this source and all of its articles?')">
+                <input type="hidden" name="id" value="<?= (int) $feed['id'] ?>">
+                <button class="link-danger" type="submit" name="delete">Delete</button>
+              </form>
+            </div>
+            <form class="source-edit-form" id="edit-source-<?= (int) $feed['id'] ?>" method="post" hidden>
               <input type="hidden" name="id" value="<?= (int) $feed['id'] ?>">
-              <button class="link-danger" type="submit" name="delete">Delete</button>
+              <label>Tags
+                <input
+                  type="text"
+                  name="tags"
+                  value="<?= escape(implode(', ', splitTags($feed['tags']))) ?>"
+                  placeholder="AI, Algorithms, SEO"
+                >
+                <span class="field-hint">Separate multiple tags with commas. Leave empty to remove all tags.</span>
+              </label>
+              <div class="edit-actions">
+                <button class="button small" type="submit" name="update_tags">Save</button>
+                <button class="button ghost small" type="button" data-cancel-edit>Cancel</button>
+              </div>
             </form>
           </div>
         <?php endforeach; ?>
@@ -104,5 +135,30 @@ $feeds = getFeeds();
     <?php endif; ?>
   </section>
 </main>
+<script>
+  document.querySelectorAll('[data-edit-source]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const form = document.getElementById(button.dataset.editSource);
+      const isOpening = form.hidden;
+
+      form.hidden = !isOpening;
+      button.setAttribute('aria-expanded', String(isOpening));
+
+      if (isOpening) {
+        form.querySelector('input[name="tags"]').focus();
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-cancel-edit]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const form = button.closest('.source-edit-form');
+      const editButton = document.querySelector(`[data-edit-source="${form.id}"]`);
+
+      form.hidden = true;
+      editButton.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 </body>
 </html>

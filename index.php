@@ -59,9 +59,9 @@ $articles = getArticles($view, $tag);
     </div>
     <div class="topbar-actions">
       <form method="post">
-        <button class="button ghost" type="submit" name="refresh">Refresh</button>
+        <button class="button" type="submit" name="refresh">Refresh</button>
       </form>
-      <a class="button" href="admin.php">Sources</a>
+      <a class="button ghost" href="admin.php">Manage Sources</a>
     </div>
   </header>
 

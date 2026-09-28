@@ -399,6 +399,15 @@ function deleteFeed(int $feedId): void
     $statement->execute([':id' => $feedId]);
 }
 
+function updateFeedTags(int $feedId, string $tags): void
+{
+    $statement = database()->prepare('UPDATE feeds SET tags = :tags WHERE id = :id');
+    $statement->execute([
+        ':id' => $feedId,
+        ':tags' => normalizeTags($tags),
+    ]);
+}
+
 function getFeeds(): array
 {
     return database()->query('SELECT * FROM feeds ORDER BY domain COLLATE NOCASE, id')->fetchAll();
