@@ -68,7 +68,6 @@ mini-rss-reader/
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-└── robots.txt
 ```
 
 ## V1 scope
