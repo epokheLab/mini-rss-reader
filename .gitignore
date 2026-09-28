@@ -1,0 +1,23 @@
+# Runtime database and SQLite sidecar files
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+data/*.sqlite-shm
+data/*.sqlite-wal
+data/*.sqlite-journal
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Logs and temporary files
+*.log
+tmp/
