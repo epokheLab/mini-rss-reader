@@ -76,7 +76,7 @@ The first version is intentionally limited: no login, search, favorites, read/un
 
 ## Development
 
-Created by Deborah Botton with assistance from ChatGPT by OpenAI.
+Created with assistance from ChatGPT by OpenAI.
 
 ## License
 
