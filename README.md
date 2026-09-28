@@ -11,7 +11,8 @@ Mini RSS Reader is a deliberately small PHP application for collecting a handful
 - Up to 50 recent articles on the home page
 - Five recent articles imported when a source is first added
 - Manual refresh for newly published articles
-- Optional language, tags, and "top source" metadata
+- Optional language, editable tags, and "top source" metadata
+- Multiple tags per source, separated with commas
 - Filters for French, English, top sources, and custom tags
 - Article deduplication by URL
 - SQLite storage created automatically on first run

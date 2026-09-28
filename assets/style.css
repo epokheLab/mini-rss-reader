@@ -270,14 +270,20 @@ select:focus {
   font-size: 0.88rem;
 }
 
+.field-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 450;
+}
+
 .source-list {
   border-top: 1px solid var(--line);
 }
 
 .source-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
@@ -294,15 +300,55 @@ select:focus {
   font-size: 0.84rem;
 }
 
+.source-actions,
+.edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.source-actions form {
+  margin: 0;
+}
+
+.source-edit-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-column: 1 / -1;
+  align-items: end;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--accent-soft);
+}
+
+.source-edit-form[hidden] {
+  display: none;
+}
+
+.button.small {
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+.link-edit,
 .link-danger {
   padding: 6px 0;
   border: 0;
   background: transparent;
-  color: var(--danger);
   cursor: pointer;
   font-weight: 650;
 }
 
+.link-edit {
+  color: var(--accent);
+}
+
+.link-danger {
+  color: var(--danger);
+}
+
+.link-edit:hover,
 .link-danger:hover {
   text-decoration: underline;
 }
@@ -375,5 +421,9 @@ select:focus {
 
   .source-row {
     align-items: flex-start;
+  }
+
+  .source-edit-form {
+    grid-template-columns: 1fr;
   }
 }
